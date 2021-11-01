@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'acc:userlogin' %}">
+    {% csrf_token %}
+    
+    <div class="container mt-5 mb-5 text-center jm" style="width: 40%">
+        <h1>LOGIN</h1>
+        <div class="input-group input-group-lg mt-5">
+            <span class="input-group-text" id="inputGroup-sizing-lg" style="width: 120px;">Username</span>
+            <input type="text" name="username" class="form-control" placeholder="Username 을 입력하세요" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+        </div>
+        <div class="input-group input-group-lg mt-4">
+            <span class="input-group-text" id="inputGroup-sizing-lg" style="width: 120px;">Password</span>
+            <input type="password" name="password" class="form-control" placeholder="Password 를 입력하세요" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+        </div>
+        <!-- 로그인 했을 때 사용자가 있으면 홈으로 없으면 경고창 -->
+        <div class="mt-4 text-center">
+            <button class="btn btn-outline-primary">Login</button>
+            <a  href="{% url 'acc:signup' %}"><button type='button' class="btn btn-outline-success">Sign Up</button></a>
+        </div>
+    </div>
+</form>
+
+{% endblock %}
