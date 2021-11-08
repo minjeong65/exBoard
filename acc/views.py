@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .models import User
-
+from django.contrib.auth.hashers import check_password
 
 
 # Create your views here.
@@ -16,7 +16,7 @@ def userlogin(request):
     
     if user:                #로그인 정보가 유효하면
         login(request, user) #로그인하고 홈으로 이동
-    return redirect('acc:index') 
+    return redirect('acc:index')
 
 
 

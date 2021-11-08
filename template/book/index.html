@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = 'container m-4 jm'>
+    <H1>BOOKMARK</H1>
+</div>
+<div class = 'container mt-4 jm'>
+    <h3 class = 'mb-4'>SITE</h3>
+</div>
+<div class = 'dropdown container mt-4 jm'>
+    {% for i in blist %}
+    <button class="btn btn-outline-light btn-lg dropdown-toggle" style = 'background-color: steelblue;' type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{  i.site_name }}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li><a href = "{{i.site_url}}" target='_blank' style="text-decoration:none"><button class="dropdown-item" type="button">Go</button></a></li>
+        <li><a href = "#" style="text-decoration:none"><button class="dropdown-item" type="button">Modify</button></a></li>
+        <!-- Button trigger modal -->
+        <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Delete
+        </button>
+  
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        삭제하시겠습니까?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="{% url 'book:delete' i.id %}"><button type="button" class="btn btn-primary">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ul>
+    {% endfor%}
+    <a href = "{% url 'book:create' %}"><button type="button" class="btn btn-outline-light btn-lg" style = 'background-color: steelblue;'>+</button></a>
+</div>
+
+
+<div class = 'container mt-5 jm'>
+    <h3 class = 'mb-4'>READING</h3>
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-outline-secondary">Go to read</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+<!-- <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button></li>
+        
+        
+        
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">북마크 삭제</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    해당 북마크를 정말로 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <a href="{% url 'book:delete' i.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            </div>
+        </div> -->
