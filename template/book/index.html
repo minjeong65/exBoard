@@ -5,45 +5,23 @@
     <H1>BOOKMARK</H1>
 </div>
 <div class = 'container mt-4 jm'>
-    <h3 class = 'mb-4'>SITE</h3>
+    <h3 class = 'mb-3'>SITE</h3>
 </div>
-<div class = 'dropdown container mt-4 jm'>
+<div class = 'dropdown container mt-3 jm'>
     {% for i in blist %}
-    <button class="btn btn-outline-light btn-lg dropdown-toggle" style = 'background-color: steelblue;' type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-outline-light dropdown-toggle mt-3" style = 'background-color: steelblue;' type="button" data-bs-toggle="dropdown" aria-expanded="false">
         {{  i.site_name }}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <li><a href = "{{i.site_url}}" target='_blank' style="text-decoration:none"><button class="dropdown-item" type="button">Go</button></a></li>
-        <li><a href = "#" style="text-decoration:none"><button class="dropdown-item" type="button">Modify</button></a></li>
-        <!-- Button trigger modal -->
-        <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        Delete
-        </button>
-  
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        삭제하시겠습니까?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <a href="{% url 'book:delete' i.id %}"><button type="button" class="btn btn-primary">Delete</button></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <li><a href = "{{ i.site_url }}" target='_blank' style="text-decoration:none"><button class="dropdown-item" type="button">Go</button></a></li>
+        <li><a href = "{% url 'book:update' i.id %}" style="text-decoration:none"><button class="dropdown-item" type="button">Modify</button></a></li>
+        <li><a href = "{% url 'book:delete' i.id %}" style="text-decoration:none"><button class = "dropdown-item" type="button">Delete</button></a></li>
     </ul>
     {% endfor%}
-    <a href = "{% url 'book:create' %}"><button type="button" class="btn btn-outline-light btn-lg" style = 'background-color: steelblue;'>+</button></a>
+    <a href = "{% url 'book:create' %}"><button type="button" class="btn btn-outline-light mt-3" style = 'background-color: steelblue;'>+</button></a>
 </div>
 
-
+<!-- 
 <div class = 'container mt-5 jm'>
     <h3 class = 'mb-4'>READING</h3>
     <div class="card" style="width: 18rem;">
@@ -54,7 +32,7 @@
           <a href="#" class="btn btn-outline-secondary">Go to read</a>
         </div>
     </div>
-</div>
+</div> -->
 
 
 {% endblock %}

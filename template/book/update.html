@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = 'container m-4 jm'>
+    <H1>BOOKMARK</H1>
+</div>
+<div class = 'container mt-5 jm'>
+    <form method = "POST">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <span class="input-group-text text-center"  style="width : 110px;">Site Name</span>
+            <input type="text" name="site_name" value = "{{ b.site_name }}" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text"  style="width : 110px;">URL</span>
+            <input type="text" name = "site_url" value = "{{ b.site_url }}" class="form-control">
+        </div>
+        <p>
+            <button class="btn btn-outline-primary">Modify</button>
+        </p>    
+    </form>
+</div>
+
+
+{% endblock %}
+
+
+</div>
