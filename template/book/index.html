@@ -4,13 +4,16 @@
 <div class = 'container m-4 jm'>
     <H1>BOOKMARK</H1>
 </div>
+
+<!-- SITE -->
+
 <div class = 'container mt-4 jm'>
-    <h3 class = 'mb-3'>SITE</h3>
+    <h3>SITE</h3>
 </div>
 <div class = 'dropdown container mt-3 jm'>
     {% for i in blist %}
-    <button class="btn btn-outline-light dropdown-toggle mt-3" style = 'background-color: steelblue;' type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        {{  i.site_name }}
+    <button class="btn btn-outline-light dropdown-toggle mt-3" style = 'background-color: rgb(140, 162, 190);' type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ i.site_name }}
     </button>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
         <li><a href = "{{ i.site_url }}" target='_blank' style="text-decoration:none"><button class="dropdown-item" type="button">Go</button></a></li>
@@ -18,43 +21,32 @@
         <li><a href = "{% url 'book:delete' i.id %}" style="text-decoration:none"><button class = "dropdown-item" type="button">Delete</button></a></li>
     </ul>
     {% endfor%}
-    <a href = "{% url 'book:create' %}"><button type="button" class="btn btn-outline-light mt-3" style = 'background-color: steelblue;'>+</button></a>
+    <a href = "{% url 'book:create' %}"><button type="button" class="btn btn-outline-light mt-3" style = 'background-color: rgb(140, 162, 190);'>+</button></a>
 </div>
 
-<!-- 
+<!-- READING LIST -->
+
 <div class = 'container mt-5 jm'>
-    <h3 class = 'mb-4'>READING</h3>
-    <div class="card" style="width: 18rem;">
-        <img src="..." class="card-img-top" alt="...">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-outline-secondary">Go to read</a>
+    <h3>READING LIST</h3>
+</div>
+<div class = 'container mt-3'>
+    <div class = 'row jm'>
+        {% for j in rlist %}
+        <div class="col-4 m-2 card" style="width: 19rem; background-color: rgba(176, 196, 222, 0.658); ">
+            <div class="card-body">
+                <h5 class="card-title" style="font-size: 100%;">{{ j.t_summary }}</h5>
+                <p class="card-text" style="font-size: 80%;">{{ j.summary }}</p>
+                <a href="{{ j.read_url }}" target = '_blank' class="btn btn-outline-secondary">Go to read</a>
+            </div>
         </div>
+        {% endfor %}
+        <div class='m-2 card' style="width: 19rem; background-color: rgba(176, 196, 222, 0.658);">
+            <div class="card-body" style="margin:0 auto;">
+                <a href = "{% url 'book:r_create' %}" class = "btn btn-outline-secondary btn-lg" style = "margin:40px auto;">+</a>
+            </div>
+            
+        </div>
+        
     </div>
-</div> -->
-
-
+</div>
 {% endblock %}
-
-<!-- <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button></li>
-        
-        
-        
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">북마크 삭제</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    해당 북마크를 정말로 삭제하시겠습니까?
-                </div>
-                <div class="modal-footer">
-                    <a href="{% url 'book:delete' i.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            </div>
-        </div> -->

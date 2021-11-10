@@ -9,12 +9,8 @@
     <form method = "POST">
         {% csrf_token %}
         <div class="input-group mb-3">
-            <span class="input-group-text text-center"  style="width : 110px;">Site Name</span>
-            <input type="text" name="sname" class="form-control" required>
-        </div>
-        <div class="input-group mb-3">
-            <span class="input-group-text"  style="width : 110px;">URL</span>
-            <input type="text" name = "surl" class="form-control" required>
+            <span class="input-group-text text-center"  style="width : 110px;">URL</span>
+            <input type="text" name="read_url" class="form-control" required>
         </div>
         <p>
             <button class="btn btn-outline-primary">Create</button>

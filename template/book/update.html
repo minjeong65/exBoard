@@ -5,15 +5,15 @@
     <H1>BOOKMARK</H1>
 </div>
 <div class = 'container mt-5 jm'>
-    <form method = "POST">
+    <form method = "POST" class="post-form">
         {% csrf_token %}
         <div class="input-group mb-3">
             <span class="input-group-text text-center"  style="width : 110px;">Site Name</span>
-            <input type="text" name="site_name" value = "{{ b.site_name }}" class="form-control">
+            <input type="text" name="site_name" value = "{{ b.site_name }}" class="form-control" required>
         </div>
         <div class="input-group mb-3">
             <span class="input-group-text"  style="width : 110px;">URL</span>
-            <input type="text" name = "site_url" value = "{{ b.site_url }}" class="form-control">
+            <input type="text" name = "site_url" value = "{{ b.site_url }}" class="form-control" required>
         </div>
         <p>
             <button class="btn btn-outline-primary">Modify</button>
@@ -23,6 +23,3 @@
 
 
 {% endblock %}
-
-
-</div>

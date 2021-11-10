@@ -1,0 +1,20 @@
+{% if form.errors %} 
+    {% for field in form %}
+        {% for error in field.errors %} <!-- 필드 오류를 출력 -->
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+                <div>
+                    Site Name과 URL은 필수입니다.
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %} <!-- 넌필드 오류를 출력-->
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            {{ error }}
+        </div>
+    </div>
+    {% endfor %}
+{% endif %}
