@@ -18,6 +18,6 @@ class Read(models.Model):
         return self.read_url
     
     def t_summary(self):
-        if len(self.title) >= 39:
-            return self.title[:39] + "..."
+        if len(self.title) >= 32:
+            return self.title[:32] + "..."
         return self.title

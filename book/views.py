@@ -57,3 +57,9 @@ def r_create(request):
         return redirect('book:index')
     #아직 값이 입력되지 않았으면 등록 창으로 이동
     return render(request, 'book/r_create.html')
+
+
+def r_delete(request, pk):
+    r = Read.objects.get(pk=pk)
+    r.delete()
+    return redirect('book:index')
