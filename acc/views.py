@@ -6,7 +6,11 @@ from django.contrib.auth.hashers import check_password
 
 # Create your views here.
 def index(request):
-    return render(request, 'acc/index.html')
+    u = User.objects.all()
+    context = {
+        'u':u
+    }
+    return render(request, 'acc/index.html', context)
 
 
 def userlogin(request):
@@ -14,9 +18,11 @@ def userlogin(request):
     pw = request.POST.get('password')
     user = authenticate(username = un, password = pw) #username은 un으로 password는 pw로 받아서 user가 있는지 확인할 수 있음
     
-    if user:                #로그인 정보가 유효하면
-        login(request, user) #로그인하고 홈으로 이동
-    return redirect('acc:index')
+    if user:                
+        login(request, user) #로그인 정보가 유효하면
+        return redirect('home:index') #로그인 후 홈으로
+    else:
+        return redirect('acc:signup') #아니면 회원가입
 
 
 

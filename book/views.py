@@ -33,7 +33,6 @@ def update(request,pk):
     b = Book.objects.get(pk=pk)
 
     if request.method == "POST":
-        print(1)
         sn = request.POST.get("site_name")
         su = request.POST.get("site_url")
         b.site_name = sn 

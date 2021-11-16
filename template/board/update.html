@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" enctype = "multipart/form-data"> <!--enctype : 바이너리 파일 보낼 때 : -->
+    {% csrf_token %}
+    <div class='container mt-5 jm' style = 'width: 70%'>
+        <h2>MODIFY</h2>
+        <div class="input-group flex-nowrap" > 
+            <span class="input-group-text" id="addon-wrapping">Subject</span>
+            <input type="text" name = "subject"  class="form-control"  value = "{{ b.subject }}" aria-describedby="addon-wrapping">
+        </div>
+        <div class="mt-2 input-group">
+            <span class="input-group-text">Content</span>
+            <textarea class="form-control" style = "height: 150px" name = "content"  aria-label="With textarea">{{ b.content }}</textarea>
+        </div>
+        <div class="mt-2 input-group">
+            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+            <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">UPLOAD</button>
+        </div>
+    </form>
+    <a href = "{% url 'board:detail' b.id %}"><button class = 'mt-3 btn btn-outline-primary'>MODIFY</button></a>
+      
+</div>
+
+{% endblock %}

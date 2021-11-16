@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'acc.apps.AccConfig',
     'home.apps.HomeConfig',
     'book.apps.BookConfig',
+    'board.apps.BoardConfig',
     
 ]
 
