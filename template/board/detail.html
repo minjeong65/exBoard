@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class = 'container mt-5 jm'>
+    <h2><b>{{ b.subject }}</b></h2>
+    <h6>written by {{ b.writer }}</h6>
+    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'width : 900px; height : 300px' disabled>{{ b.content }}</textarea>
+    <div class = 'mb-5'>
+        <img class = "mt-5" src = "{{ .getpic }}">
+    </div>
+    {% if b.writer == user.username %} <!--작성자인 경우-->
+        <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
+        <a href = "{% url 'board:update' b.id %}"><button class = "btn btn-outline-success">Modify</button></a>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Delete
+        </button>
+        
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><b>WARNING</b></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <b>해당 게시글을 정말 삭제하시겠습니까?</b>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href = "{% url 'board:delete' b.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% else %}
+        <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
+    {% endif %}
+</div>
+{% endblock %}  
+  
