@@ -2,13 +2,14 @@
 
 {% block content %}
 
-<div class = 'container mt-5 jm'>
+<div class = 'container mt-5 mb-5 jm'>
     <h2><b>{{ b.subject }}</b></h2>
     <h6>written by {{ b.writer }}</h6>
-    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'width : 900px; height : 300px' disabled>{{ b.content }}</textarea>
-    <div class = 'mb-5'>
-        <img class = "mt-5" src = "{{ .getpic }}">
+    <div class = 'mb-3 mt-5 text-center'>
+        <img class = "mt-4" src = "{{ b.getphoto }}">
     </div>
+    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'width : 900px; height : 300px' disabled>{{ b.content }}</textarea>
+    
     {% if b.writer == user.username %} <!--작성자인 경우-->
         <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
         <a href = "{% url 'board:update' b.id %}"><button class = "btn btn-outline-success">Modify</button></a>
