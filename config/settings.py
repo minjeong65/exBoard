@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'book.apps.BookConfig',
     'board.apps.BoardConfig',
+    'mathfilters',
     
 ]
 

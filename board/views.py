@@ -1,12 +1,33 @@
 from django.shortcuts import render, redirect
 from .models import Board
-
+from django.utils import timezone
+from django.core.paginator import PageNotAnInteger, Paginator
 
 # Create your views here.
 def index(request):
+    #페이징할 때
+    page = request.GET.get('page',1)
+    cate = request.GET.get('cate','')
+    kw = request.GET.get('kw','')
+
+    # if kw:
+    #     if cate == "subject":
+    #         b = Board.objects.filter(subject__startswith = kw)
+    #     elif cate == 'writer':
+    #         b = Board.objects.filter(writer=kw)
+    #     elif cate == "content":
+    #         b = Board.objects.filter(content__contains = kw)
+    # else:
+    #     b = Board.objects.all()
+    
     b = Board.objects.all()
+    pag = Paginator(b,10)
+    obj = pag.get_page(page)
+
     context = {
-        'blist' : b,
+        'blist' : obj,
+        'cate' : cate,
+        'kw' : kw
     }
     return render(request, 'board/index.html', context)
 
