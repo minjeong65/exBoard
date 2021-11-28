@@ -5,10 +5,10 @@
 <div class = 'container mt-5 mb-5 jm'>
     <h2><b>{{ b.subject }}</b></h2>
     <h6>written by {{ b.writer }}</h6>
-    <div class = 'mb-3 mt-5 text-center'>
-        <img class = "mt-4" src = "{{ b.getphoto }}">
+    <div class = 'text-center'>
+        <img class = "mt-4" src = "{{ b.getphoto }}" style = "display: block; margin: 0 auto; max-width: 100%; height: auto;">
     </div>
-    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'width : 900px; height : 300px' disabled>{{ b.content }}</textarea>
+    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'max-width: 100%; height : 300px' disabled>{{ b.content }}</textarea>
     
     {% if b.writer == user.username %} <!--작성자인 경우-->
         <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>

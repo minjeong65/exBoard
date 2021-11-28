@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Board
 from django.utils import timezone
-from django.core.paginator import PageNotAnInteger, Paginator
+from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
@@ -10,17 +10,17 @@ def index(request):
     cate = request.GET.get('cate','')
     kw = request.GET.get('kw','')
 
-    # if kw:
-    #     if cate == "subject":
-    #         b = Board.objects.filter(subject__startswith = kw)
-    #     elif cate == 'writer':
-    #         b = Board.objects.filter(writer=kw)
-    #     elif cate == "content":
-    #         b = Board.objects.filter(content__contains = kw)
-    # else:
-    #     b = Board.objects.all()
-    
-    b = Board.objects.all()
+    # 조회할 때
+    if kw:
+        if cate == "subject":
+            b = Board.objects.filter(subject__icontains = kw)
+        elif cate == 'writer':
+            b = Board.objects.filter(writer=kw)
+        elif cate == "content":
+            b = Board.objects.filter(content__icontains = kw)
+    else:
+        b = Board.objects.all()
+    b = b.order_by('-ctime')
     pag = Paginator(b,10)
     obj = pag.get_page(page)
 
@@ -42,11 +42,11 @@ def detail(request,pk):
 
 def create(request):
     if request.method == "POST":
-        sb=request.POST.get("subject")
-        wr= request.user.username
-        cn=request.POST.get("content")
+        sb = request.POST.get("subject")
+        wr = request.user.username
+        cn = request.POST.get("content")
         p = request.FILES.get("photo")
-        Board(subject = sb, writer = wr, content = cn, photo = p).save()
+        Board(subject = sb, writer = wr, content = cn, photo = p, ctime = timezone.now()).save()
         return redirect("board:index")
     return render(request, 'board/create.html')
 

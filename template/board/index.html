@@ -7,25 +7,28 @@
     <H1>BOARD</H1>
 </div>
 <div class = 'container mt-4 jm'>
-  <!-- 검색창(조회) -->
-  <!-- <form>
-    <div class="row mt-5">
-        <div class = "col-lg-2">
+  <!------------------------------------------------------- 검색창(조회) --------------------------------------------->
+  <form action="" method="get">
+    <div class="row mt-5 mb-4 text-end">
+        <div class = "col-sm-5">
+        </div>
+        <div class = "col-sm-2">
             <select class="form-select" name = 'cate' aria-label="Default select example">
-                <option value="제목" {%if cate == 'subject'%}selected{%endif%}>제목</option>
-                <option value="글쓴이" {%if cate == 'writer'%}selected{%endif%}>글쓴이</option>
-                <option value="내용" {%if cate == 'content'%}selected{%endif%}>내용</option>
+                <option value="제목" {% if cate == 'subject'%}selected{% endif %}>제목</option>
+                <option value="글쓴이" {% if cate == 'writer'%}selected{% endif %}>글쓴이</option>
+                <option value="내용" {% if cate == 'content'%}selected{% endif %}>내용</option>
               </select>
         </div>
-        <div class = "col-lg-9">
+        <div class = "col-sm-4">
             <input type = "text" class = "form-control" name = "kw" value = "{{kw}}">
         </div>
-        <div class = "col-lg-1">
-            <button class="btn btn-outline-primary">SEARCH</button>
+        <div class = "col-sm-1">
+          <button class="btn btn-outline-primary">Search</button>
         </div>
-    </div> -->
 
-  <!-- 보드 -->
+    </div>
+
+  <!------------------------------------------------------ Board 생성 ---------------------------------------------->
   </form>
     <table class="table table-hover">
         <thead>
@@ -34,15 +37,17 @@
             <th scope="col">Subject</th>
             <th scope="col">Writer</th>
             <th scope="col">Content</th>
+            <th scope="col">Date</th>
           </tr>
         </thead>
         <tbody>
         {% for i in blist %}
           <tr>
-            <th class = "text-center" scope="row" width = "50px">{{ forloop.counter }}</th>
-            <td><a href = "{% url 'board:detail' i.id %}" style="text-decoration:none; color: black;">{{i.subject}}</a></td>
+            <th class = "text-center" scope="row" style = "font-size: small;">{{ forloop.counter }}</th>
+            <td ><a href = "{% url 'board:detail' i.id %}" style="text-decoration:none; color: black;">{{i.subject}}</a></td>
             <td class = "text-center" width= "100px">{{ i.writer }}</td>
             <td>{{ i.summary }}</td>
+            <td class = "text-center">{{ i.ctime }}</td>
           </tr>
         {% endfor %}
         </tbody>
@@ -53,7 +58,7 @@
       <a href = "{% url 'acc:index' %}"><button class = 'mt-3 btn btn-outline-primary'>WRITE</button></a>
       {% endif %}
 </div>
-<!-- PAGING -->
+<!------------------------------------------------------------PAGING------------------------------------------------------->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         {% if blist.has_previous %}
@@ -64,13 +69,14 @@
                 <a class="page-link" href="{% url 'board:index' %}?page={{blist.previous_page_number}}&cate={{cate}}&kw={{kw}}"> < </a>
             </li>
         {% endif %}
-        
         {% for i in blist.paginator.page_range %}
-            {% if blist.number|sub:1|intdiv:5|add:1|mul:5 >= i and i >= blist.number|sub:1|intdiv:5|mul:5|add:1 %}
+        <!-------------- 페이지 바 표시 제한(필터링) : 한 화면에 5개의 페이지버튼만 보일 수 있도록 함 ------------------>
+            {% if blist.number|sub:1|intdiv:4|add:1|mul:5 >= i and i >= blist.number|sub:1|intdiv:4|mul:5 %}
                 <li class="page-item {% if blist.number == i %}active{% endif %}"><a class="page-link" href="{% url 'board:index' %}?page={{i}}&cate={{cate}}&kw={{kw}}">{{ i }}</a></li>
             {% endif %}
-        {% endfor %}
 
+        {% endfor %}  
+        
         {% if blist.has_next %}
             <li class="page-item">
                 <a class="page-link" href="{% url 'board:index' %}?page={{blist.next_page_number}}&cate={{cate}}&kw={{kw}}"> > </a>
