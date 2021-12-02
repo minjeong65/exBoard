@@ -1,44 +1,88 @@
 {% extends 'base.html' %}
-
+{% load board_filter %}
 {% block content %}
 
 <div class = 'container mt-5 mb-5 jm'>
     <h2><b>{{ b.subject }}</b></h2>
-    <h6>written by {{ b.writer }}</h6>
+    <h5>written by <b>{{ b.writer }}</b></h5>
     <div class = 'text-center'>
         <img class = "mt-4" src = "{{ b.getphoto }}" style = "display: block; margin: 0 auto; max-width: 100%; height: auto;">
     </div>
-    <textarea class = "form-control mt-3 mb-3" name = 'content' style = 'max-width: 100%; height : 300px' disabled>{{ b.content }}</textarea>
-    
-    {% if b.writer == user.username %} <!--작성자인 경우-->
-        <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
-        <a href = "{% url 'board:update' b.id %}"><button class = "btn btn-outline-success">Modify</button></a>
-        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Delete
-        </button>
-        
+    <div class = 'border border-2 card-body'>
+        <div class = "card-text mt-3 mb-3" name = 'content' style = 'max-width: 100%; height : 300px' disabled>{{ b.content|mark }}</div>
+    </div>
+</div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><b>WARNING</b></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                <b>해당 게시글을 정말 삭제하시겠습니까?</b>
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <a href = "{% url 'board:delete' b.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
-                </div>
+<!--------------------------------------------- Reply ------------------------------------------>
+<div class = 'container mt-5 mb-5 jm'>
+    <h5><b>{{ rep.count }}개의 댓글</b></h5>
+    <div class="row mt-4 mb-4">
+        <div class="col-lg-10">
+            <form action="{% url 'board:reply' b.id %}" method = "post">
+            {% csrf_token %}
+            <div class="input-group mt-2 mr-5">
+                <input type="text" name = "comment" id = "comment" class="form-control" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">댓글등록</button>
             </div>
+            </form>
+        </div>
+    </div>
+    {% if rep %}
+        {% for i in rep %}
+        <div class="row mt-4 mb-4">
+            <div class="col-lg-10">
+                <span style="font-weight: bold; font-size:14px;" class="mt-5" >{{i.replyer}}
+                <div class = "mt-2" style="font-size:12px;">{{ i.create_time }}</div></span>
+                <div disabled class="card_body m-2">
+                    <div class = "mt-2 card-text" style="font-size:18px;">{{ i.comment|mark }}</div>
+                    {% if i.replyer == user.username %}
+                    <div class = "text-end">
+                        <a href = "{% url 'board:del_rep' i.id %}"><button class = "btn btn-outline-secondary btn-sm">삭제</button></a>
+                        <a href = "{% url 'board:mod_rep' i.id %}"><button class = "btn btn-outline-secondary btn-sm">수정</button></a>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                </div>
+                <hr>
             </div>
         </div>
+        {% endfor %}
     {% else %}
-        <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
-    {% endif %}
+    {% endif %} 
 </div>
+
+<!----------------------------------------- BUTTON ------------------------------------------>
+<div class = 'container mt-5 mb-5 jm'>
+    {% if b.writer == user.username %} <!--작성자인 경우-->
+    <a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
+    <a href = "{% url 'board:update' b.id %}"><button class = "btn btn-outline-success">Modify</button></a>
+    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Delete
+    </button>
+</div>
+    
+    
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><b>WARNING</b></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <b>해당 게시글을 정말 삭제하시겠습니까?</b>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <a href = "{% url 'board:delete' b.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+        </div>
+    </div>
+    </div>
+</div>
+{% else %}
+<a href = "{% url 'board:index' %}"><button class = "btn btn-outline-primary">Home</button></a>
+{% endif %}
+
 {% endblock %}  
   
