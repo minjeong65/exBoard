@@ -5,34 +5,45 @@
 
 <div class = 'container mt-4 jm'>
   <H1>BOARD</H1>
+    <div class="row my-3 text-end">
+        <!------------------------------------------------------- 정렬 --------------------------------------------->
 
-<!------------------------------------------------------- 검색창(조회) --------------------------------------------->
-  <form action="" method="get">
-    <div class="row mt-5 mb-4 text-end">
-        <div class = "col-sm-5">
+        <div class = "col-sm-1">
+          <form method="get">
+            <select class="form-select-sm" name = 'cate' aria-label="Default select example" style = "height: 31px;">
+              <option value="최신순" {% if cate == '최신순' %} selected {% endif %}>최신순</option>
+              <option value="추천순" {% if cate == '추천순' %} selected {% endif %}>추천순</option>
+              <option value="댓글순" {% if cate == '댓글순' %} selected {% endif %}>댓글순</option>
+            </select>
+          </form>   
         </div>
+        <div class = "col-sm-5"></div>
+  
+        <!------------------------------------------------ 검색창(조회) --------------------------------------------->
+        
         <div class = "col-sm-2">
-            <select class="form-select" name = 'cate' aria-label="Default select example">
-                <option value="제목" {% if cate == 'subject'%}seslected{% endif %}>제목</option>
-                <option value="글쓴이" {% if cate == 'writer'%}selected{% endif %}>글쓴이</option>
-                <option value="내용" {% if cate == 'content'%}selected{% endif %}>내용</option>
+            <select class="form-select-sm" name = 'cate' aria-label="Default select example" style = "height: 31px;">
+                <option value="제목" {% if cate == '제목'%}selected{% endif %}>제목</option>
+                <option value="글쓴이" {% if cate == '글쓴이'%}selected{% endif %}>글쓴이</option>
+                <option value="내용" {% if cate == '내용'%}selected{% endif %}>내용</option>
               </select>
         </div>
         <div class = "col-sm-4">
-            <input type = "text" class = "form-control" name = "kw" value = "{{kw}}">
-        </div>
-        <div class = "col-sm-1">
-          <button class="btn btn-outline-primary">Search</button>
+          <div class="input-group">
+            <input type = "text" class = "form-control" name = "kw" value = "{{kw}}" style = "width : auto; height: 31px;">
+            <button class="btn btn-outline-secondary btn-sm">Search</button>
+          </div>
         </div>
     </div>
 
 
-<!------------------------------------------------------ Board 생성 --------------------------------------------------------->
-  </form>
+  <!------------------------------------------------------ Board 생성 --------------------------------------------------------->
+  
     <table class="table table-hover">
         <thead>
           <tr class = "text-center">
             <th scope="col">No</th>
+            <th scope="col">Like</th>
             <th scope="col">Subject</th>
             <th scope="col">Writer</th>
             <th scope="col">Content</th>
@@ -45,7 +56,8 @@
             <td class = "text-center" scope="row">
             <!-- 게시물 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
             {{ blist.paginator.count|sub:blist.start_index|sub:forloop.counter0|add:1 }}
-          </td>
+            </td>
+            <td class = "text-center"><span class = "badge bg-success">{{ i.voter.all.count }}</span></td>
             <td ><a href = "{% url 'board:detail' i.id %}" style="text-decoration:none; color: black;">{{i.subject}}</a>
             {% if i.reply_set.count > 0 %}
             <span class = "text-danger small ml-2">[{{i.reply_set.count}}]</span>
