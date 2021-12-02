@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from acc.models import User
 
 
 # Create your models here.
@@ -9,11 +10,17 @@ class Board(models.Model):
     content = models.TextField()
     photo = models.ImageField(upload_to='post',blank=True, null=True)
     ctime = models.DateTimeField()
+    voter = models.ManyToManyField(User)
     
     
+    def sub_summary(self):
+        if len(self.subject) >= 25:
+            return self.subject[:25] + "..."
+        return self.subject
+
     def summary(self):
-        if len(self.content) >= 30:
-            return self.content[:30] + "..."
+        if len(self.content) >= 20:
+            return self.content[:20] + "..."
         return self.content
 
 
@@ -22,7 +29,8 @@ class Board(models.Model):
             return self.photo.url
         return "" #사진 첨부 안하는 경우
 
-    
+
+
 class Reply(models.Model):
     sub = models.ForeignKey(Board, on_delete = models.CASCADE)
     replyer = models.CharField(max_length=50)

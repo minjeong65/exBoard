@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Board, Reply
 from django.utils import timezone
 from django.core.paginator import Paginator
+from django.db.models import Q, Count
 
 
 # Create your views here.
@@ -11,17 +12,18 @@ def index(request):
     cate = request.GET.get('cate','')
     kw = request.GET.get('kw','')
 
-    # 조회할 때
-    if kw:
-        if cate == "subject":
-            b = Board.objects.filter(subject__startswith=kw).order_by("-ctime")
-        elif cate == "writer":
-            b = Board.objects.filter(writer=kw).order_by("-ctime")
-        else:
-            b = Board.objects.filter(content__contains=kw).order_by("-ctime")
+    # 정렬
+    if cate == "추천순":
+        print(1)
+        b = Board.objects.annotate(num_voter = Count('voter')).order_by("-num_voter","-ctime")
+    elif cate == "댓글순":
+        print(2)
+        b = Board.objects.annotate(num_rep = Count('sub')).order_by("-num_rep","-ctime")
     else:
-        b = Board.objects.all()
-    b = b.order_by('-ctime')
+        print(3)
+        b = Board.objects.order_by("-ctime")
+
+
     pag = Paginator(b,10)
     obj = pag.get_page(page)
 
@@ -36,7 +38,7 @@ def index(request):
 def detail(request, pk):
     if not request.user.username:
         return redirect("acc:index")
-    b = Board.objects.get(id=pk)
+    b = Board.objects.get(pk=pk)
     r = b.reply_set.all()
     context = {
         'b' : b,
@@ -98,5 +100,29 @@ def del_rep(request, num):
     return redirect('board:detail', pk = re.sub.id)
 
 
-def mod_rep(request, num):
-    return render('board:detail', pk=num)
+# def mod_rep(request, num):
+#     re = Reply.objects.get(pk=num)
+#     if request.method == "POST":
+#         sb = request.POST.get("sub")
+#         rep = request.user.username
+#         cn = request.POST.get("comment")
+#         ct = timezone.now()
+#         re.sub = sb
+#         re.replyer = rep
+#         re.comment = cn
+#         re.create_time = ct
+#         re.save()
+#         return redirect('board:index')
+
+#     context = {
+#         'rep': re
+#     }
+#     return render(request, 'board/mod_rep.html', context)
+
+def voter(request, pk):
+    b = get_object_or_404(Board,pk=pk)
+    # 추천은 한번만 누를 수 있도록
+    if request.user in b.voter.all():
+        return redirect('board:detail', pk=pk)
+    b.voter.add(request.user)
+    return redirect('board:detail', pk=pk)

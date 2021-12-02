@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class = 'container mt-5 mb-5 jm'>
+    <H4>댓글 수정</H4>
+    <div class="row mt-4 mb-4">
+    <div class="col-lg-10">
+        <form method = "post">
+        {% csrf_token %}
+            <div class="input-group mt-2 mr-5">
+                <input type="text" value = "{{ rep.comment }}" name = "comment" id = "comment" class="form-control" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">댓글수정</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+
+{% endblock %}

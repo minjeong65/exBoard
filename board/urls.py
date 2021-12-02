@@ -11,5 +11,6 @@ urlpatterns = [
     path('update/<pk>',views.update, name = 'update'),
     path('reply/<pk>', views.reply, name = "reply"),
     path('del_rep/<num>', views.del_rep, name="del_rep"),
-    path('mod_rep/<num>', views.mod_rep, name="mod_rep"),
+    path('voter/<pk>', views.voter, name="voter")
+    # path('mod_rep/<num>', views.mod_rep, name="mod_rep"),
 ]
